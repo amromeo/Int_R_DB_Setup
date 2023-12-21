@@ -29,7 +29,7 @@ column_specs <- html_element(webpage, "#columns") %>%
          html_table(fill = TRUE)
 
 # View the first few rows of the table
-head(column_specs)
+# head(column_specs)
 
 write_csv(column_specs, file = "mimic_col_specs.csv")
 
@@ -108,12 +108,24 @@ dbListTables(db)
 # Fix dates (coming in as 'real')
 
 # Function to get all REAL type columns for a given table
-get_real_columns <- function(table_name) {
+# get_real_columns <- function(table_name) {
+#   query <- paste0("PRAGMA table_info(", table_name, ");")
+#   table_info <- dbGetQuery(db, query)
+#   real_columns <- table_info$name[table_info$type == "REAL"]
+#   return(real_columns)
+# }
+
+get_date_time_columns <- function(table_name) {
   query <- paste0("PRAGMA table_info(", table_name, ");")
   table_info <- dbGetQuery(db, query)
-  real_columns <- table_info$name[table_info$type == "REAL"]
-  return(real_columns)
+
+  # Filter columns based on keywords in the column name
+  keywords <- c("date", "time", "dod", "dob")
+  filtered_columns <- table_info$name[sapply(table_info$name, function(name) any(sapply(keywords, function(keyword) grepl(keyword, name, ignore.case = TRUE))))]
+
+  return(filtered_columns)
 }
+
 
 # Get a list of all tables
 tables <- dbGetQuery(db, "SELECT name FROM sqlite_master WHERE type='table';")
@@ -124,7 +136,7 @@ table_names <- tables$name
 ```{r}
 # Function to create a new table and copy data
 create_and_copy_data <- function(table_name) {
-  real_columns <- get_real_columns(table_name)
+  real_columns <- get_date_time_columns(table_name)
   
   # Skip tables without REAL type columns
   if (length(real_columns) == 0) {
@@ -152,11 +164,11 @@ lapply(table_names, create_and_copy_data)
 ```
 
 ```{r}
-# Reconnect to the database
+
 
 # Function to replace old table with the new table
 replace_table <- function(table_name) {
-  real_columns <- get_real_columns(table_name)
+  real_columns <- get_date_time_columns(table_name)
   
   # Skip tables without REAL type columns
   if (length(real_columns) == 0) {

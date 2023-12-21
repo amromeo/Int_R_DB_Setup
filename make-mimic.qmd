@@ -1,0 +1,213 @@
+---
+title: "Make MIMIC"
+format: html
+editor: visual
+---
+
+
+
+```{r}
+# Load required packages
+library(tidyverse)
+library(purrr)
+library(stringr)
+library(fs)
+library(RSQLite)
+library(readr)
+library(connections)
+library(rvest)
+```
+
+```{r}
+# URL of the webpage
+url <- "https://mit-lcp.github.io/mimic-schema-spy/columns.byTable.html"
+
+# Read the HTML content from the webpage
+webpage <- read_html(url)
+
+# Extract the table with id 'columns'
+column_specs <- html_element(webpage, "#columns") %>%
+         html_table(fill = TRUE)
+
+# View the first few rows of the table
+head(column_specs)
+
+write_csv(column_specs, file = "mimic_col_specs.csv")
+
+```
+
+```{r}
+
+
+sql_to_r_type <- function(sql_type) {
+  type_map <- list(
+    varchar = col_character(),
+    #timestamp = col_character(),
+    timestamp = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+    int4 = col_integer(),
+    int2 = col_integer(),
+    float8 = col_double(),
+    bpchar = col_character(),
+    text = col_character()
+  )
+  return(type_map[[sql_type]] %||% col_character())
+}
+
+```
+
+
+```{r}
+# Assuming column_specs and sql_to_r_type are already defined
+# Directory containing CSV files
+directory <- "mimic-iii-clinical-database-demo-1.4"
+
+# List all CSV files in the directory
+csv_files <- fs::dir_ls(path = directory, regexp = "\\.csv$")
+
+# Create SQLite Database
+db <- dbConnect(RSQLite::SQLite(), "mimic_database.sqlite")
+
+# Function to read a CSV file and write to the database
+write_to_db <- function(file_path) {
+    # Extract the base name of the file (without extension) to use as table name
+    table_name <- fs::path_file(file_path)
+    table_name <- str_replace(table_name, "\\.csv$", "")
+    
+    # Prepare column types for the table
+    table_col_types <- column_specs %>%
+      filter(Table == str_to_lower(table_name)) %>%
+      { setNames(lapply(.$Type, sql_to_r_type), .$Column) } %>%
+      do.call(cols, .)
+
+    # Read the CSV file with specified column types
+    df <- read_csv(file_path, col_types = table_col_types)
+    
+    # df <- convert_timestamps(df, timestamp_columns)
+    
+    parsing_problems <- problems(df)
+    if (nrow(parsing_problems) > 0) {
+        message("Parsing problems found in ", table_name, ":")
+        print(parsing_problems)
+    }
+    
+    # Write the DataFrame to SQLite Database
+    dbWriteTable(db, table_name, df, overwrite = TRUE)
+}
+
+# Use purrr to iterate over files and apply the function
+purrr::walk(csv_files, write_to_db)
+
+# Verify Tables
+dbListTables(db)
+
+# Disconnect from the Database
+# dbDisconnect(db)
+
+```
+
+
+```{r}
+
+# db <- dbConnect(RSQLite::SQLite(), "mimic_database.sqlite")
+# Connect to your SQLite database
+
+# Function to get all REAL type columns for a given table
+get_real_columns <- function(table_name) {
+  query <- paste0("PRAGMA table_info(", table_name, ");")
+  table_info <- dbGetQuery(db, query)
+  real_columns <- table_info$name[table_info$type == "REAL"]
+  return(real_columns)
+}
+
+# Get a list of all tables
+tables <- dbGetQuery(db, "SELECT name FROM sqlite_master WHERE type='table';")
+table_names <- tables$name
+
+```
+
+```{r}
+# Function to create a new table and copy data
+create_and_copy_data <- function(table_name) {
+  real_columns <- get_real_columns(table_name)
+  
+  # Skip tables without REAL type columns
+  if (length(real_columns) == 0) {
+    return()
+  }
+  
+  # Create a SQL command to define a new table
+  # Assuming other columns are kept the same for simplicity
+  create_table_sql <- paste0("CREATE TABLE ", table_name, "_new AS SELECT * FROM ", table_name, ";")
+  dbExecute(db, create_table_sql)
+  
+  # Convert REAL columns to datetime format
+  for (col in real_columns) {
+    update_sql <- paste0("UPDATE ", table_name, "_new SET ", col, " = datetime(", col, ", 'unixepoch');")
+    dbExecute(db, update_sql)
+  }
+}
+
+# Apply the function to each table
+lapply(table_names, create_and_copy_data)
+
+# Disconnect from the database
+# dbDisconnect(db)
+
+```
+
+```{r}
+# Reconnect to the database
+
+# Function to replace old table with the new table
+replace_table <- function(table_name) {
+  real_columns <- get_real_columns(table_name)
+  
+  # Skip tables without REAL type columns
+  if (length(real_columns) == 0) {
+    return()
+  }
+  
+  # Drop the old table and rename the new table
+  dbExecute(db, paste0("DROP TABLE ", table_name, ";"))
+  dbExecute(db, paste0("ALTER TABLE ", table_name, "_new RENAME TO ", table_name, ";"))
+}
+
+# Apply the function to each table
+lapply(table_names, replace_table)
+
+# Disconnect from the database
+#dbDisconnect(db)
+
+```
+
+```{r}
+# Reconnect to the database
+# Function to print column types of a table
+print_column_types <- function(table_name) {
+  column_info <- dbGetQuery(db, paste0("PRAGMA table_info(", table_name, ");"))
+  print(column_info)
+}
+
+# Apply the function to each table
+lapply(table_names, print_column_types)
+
+# Disconnect from the database
+#dbDisconnect(db)
+
+```
+
+```{r}
+# Function to print some data from a table
+print_table_data <- function(table_name) {
+  data_sample <- dbGetQuery(db, paste0("SELECT * FROM ", table_name, " LIMIT 5;"))
+  print(data_sample)
+}
+
+# Reapply the function to each table
+lapply(table_names, print_table_data)
+
+# Disconnect
+#dbDisconnect(db)
+
+```
+

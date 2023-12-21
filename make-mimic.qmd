@@ -4,8 +4,6 @@ format: html
 editor: visual
 ---
 
-
-
 ```{r}
 # Load required packages
 library(tidyverse)
@@ -19,6 +17,7 @@ library(rvest)
 ```
 
 ```{r}
+# Get correct data types for each column
 # URL of the webpage
 url <- "https://mit-lcp.github.io/mimic-schema-spy/columns.byTable.html"
 
@@ -38,7 +37,7 @@ write_csv(column_specs, file = "mimic_col_specs.csv")
 
 ```{r}
 
-
+# Translation for correct column types in R read
 sql_to_r_type <- function(sql_type) {
   type_map <- list(
     varchar = col_character(),
@@ -55,8 +54,8 @@ sql_to_r_type <- function(sql_type) {
 
 ```
 
-
 ```{r}
+## Create Database
 # Assuming column_specs and sql_to_r_type are already defined
 # Directory containing CSV files
 directory <- "mimic-iii-clinical-database-demo-1.4"
@@ -105,11 +104,8 @@ dbListTables(db)
 
 ```
 
-
 ```{r}
-
-# db <- dbConnect(RSQLite::SQLite(), "mimic_database.sqlite")
-# Connect to your SQLite database
+# Fix dates (coming in as 'real')
 
 # Function to get all REAL type columns for a given table
 get_real_columns <- function(table_name) {
@@ -210,4 +206,3 @@ lapply(table_names, print_table_data)
 #dbDisconnect(db)
 
 ```
-

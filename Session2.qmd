@@ -16,28 +16,37 @@ What you need:
 
 ## Connect to a database
 
-
 ```{r}
 library(connections)
 library(RSQLite)
-con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
+#con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
 con <- connection_open(RSQLite::SQLite(), "mimic_database.sqlite")
 ```
-
 
 ```{r}
 library(DBI)
 dbListTables(con@con)
 ```
+
+## exercise
 Check out connections tab
 
 ## Data Dictionary
 
 Structure of this database
 
+## Simple sql
+
+```{r}
+dbGetQuery(con,"SELECT * FROM ADMISSIONS LIMIT 5")
+
+admissions_df <- dbGetQuery(con,"SELECT * FROM ADMISSIONS LIMIT 5")
+
+admissions_df |>
+  filter(subject_id == 10011)
+```
+
 ## Joins
-
-
 
 
 

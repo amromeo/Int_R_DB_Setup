@@ -1,0 +1,45 @@
+---
+title: "Session2"
+format: html
+editor: visual
+---
+
+## Connecting to a database
+
+What you need:
+
+1.  **The right software: Database Driver and R Package**: You need the appropriate R package that acts as an interface to the database driver. Databases have specific drivers, software that bridges between R and the database.
+
+2.  **Connection Credentials**: This includes the host address of the database server, the port number, the specific database name you want to connect to, and the user credentials (username and password). These details are crucial for R to correctly locate and gain authorized access to the database.
+
+3.  **Connection String/Code**: This is a concise expression or a block of code in R that brings together the driver/package and the connection credentials to establish the connection. It typically involves a function call from the R package that you're using, where you pass in the credentials as parameters.
+
+## Connect to a database
+
+
+```{r}
+library(connections)
+library(RSQLite)
+con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
+con <- connection_open(RSQLite::SQLite(), "mimic_database.sqlite")
+```
+
+
+```{r}
+library(DBI)
+dbListTables(con@con)
+```
+Check out connections tab
+
+## Data Dictionary
+
+Structure of this database
+
+## Joins
+
+
+
+
+
+
+The `echo: false` option disables the printing of code (only output is displayed).

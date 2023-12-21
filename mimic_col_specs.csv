@@ -1,0 +1,535 @@
+Table,Column,Type,Size,Nulls,Auto,Default,Comments
+admissions,admission_location,varchar,50,,NA,,Admission location.
+admissions,admission_type,varchar,50,,NA,,"Type of admission, for example emergency or elective."
+admissions,admittime,timestamp,22,,NA,,Time of admission to the hospital.
+admissions,deathtime,timestamp,22,√,NA,null,Time of death.
+admissions,diagnosis,varchar,255,√,NA,null,Diagnosis.
+admissions,discharge_location,varchar,50,,NA,,Discharge location
+admissions,dischtime,timestamp,22,,NA,,Time of discharge from the hospital.
+admissions,edouttime,timestamp,22,√,NA,null,
+admissions,edregtime,timestamp,22,√,NA,null,
+admissions,ethnicity,varchar,200,,NA,,Ethnicity.
+admissions,hadm_id,int4,10,,NA,,Primary key. Identifies the hospital stay.
+admissions,has_chartevents_data,int2,5,,NA,,Hospital admission has at least one observation in the CHARTEVENTS table.
+admissions,hospital_expire_flag,int2,5,√,NA,null,
+admissions,insurance,varchar,255,,NA,,Insurance type.
+admissions,language,varchar,10,√,NA,null,Language.
+admissions,marital_status,varchar,50,√,NA,null,Marital status.
+admissions,religion,varchar,50,√,NA,null,Religon.
+admissions,row_id,int4,10,,NA,,Unique row identifier.
+admissions,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+callout,acknowledge_status,varchar,20,,NA,,The status of the response to the call out request.
+callout,acknowledgetime,timestamp,22,√,NA,null,Time at which the call out request was acknowledged.
+callout,callout_outcome,varchar,20,,NA,,The result of the call out request; either a cancellation or a discharge.
+callout,callout_service,varchar,10,,NA,,Identifies the service that the patient is called out to.
+callout,callout_status,varchar,20,,NA,,Current status of the call out request.
+callout,callout_wardid,int4,10,√,NA,null,Identifies the ward where the patient is to be discharged to. A value of 1 indicates the first available ward. A value of 0 indicates home.
+callout,createtime,timestamp,22,,NA,,Time at which the call out request was created.
+callout,curr_careunit,varchar,15,√,NA,null,"If the ward where the patient is currently residing is an ICU, the ICU type is listed here."
+callout,curr_wardid,int4,10,√,NA,null,Identifies the ward where the patient is currently residing.
+callout,currentreservationtime,timestamp,22,√,NA,null,Latest time at which a ward was reserved for the call out request.
+callout,discharge_wardid,int4,10,√,NA,null,The ward to which the patient was discharged.
+callout,firstreservationtime,timestamp,22,√,NA,null,First time at which a ward was reserved for the call out request.
+callout,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+callout,outcometime,timestamp,22,,NA,,Time at which the outcome (cancelled or discharged) occurred.
+callout,request_cdiff,int2,5,,NA,,Indicates if special precautions are required.
+callout,request_mrsa,int2,5,,NA,,Indicates if special precautions are required.
+callout,request_resp,int2,5,,NA,,Indicates if special precautions are required.
+callout,request_tele,int2,5,,NA,,Indicates if special precautions are required.
+callout,request_vre,int2,5,,NA,,Indicates if special precautions are required.
+callout,row_id,int4,10,,NA,,Unique row identifier.
+callout,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+callout,submit_careunit,varchar,15,√,NA,null,"If the ward where the call was submitted was an ICU, the ICU type is listed here."
+callout,submit_wardid,int4,10,√,NA,null,Identifies the ward where the call out request was submitted.
+callout,updatetime,timestamp,22,,NA,,Last time at which the call out request was updated.
+caregivers,cgid,int4,10,,NA,,Unique caregiver identifier.
+caregivers,description,varchar,30,√,NA,null,"More detailed description of the caregiver, if available."
+caregivers,label,varchar,15,√,NA,null,"Title of the caregiver, for example MD or RN."
+caregivers,row_id,int4,10,,NA,,Unique row identifier.
+chartevents,cgid,int4,10,√,NA,null,Foreign key. Identifies the caregiver.
+chartevents,charttime,timestamp,22,√,NA,null,Time when the event occured.
+chartevents,error,int4,10,√,NA,null,Flag to highlight an error with the event.
+chartevents,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+chartevents,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+chartevents,itemid,int4,10,√,NA,null,Foreign key. Identifies the charted item.
+chartevents,resultstatus,varchar,50,√,NA,null,Result status of lab data.
+chartevents,row_id,int4,10,,NA,,Unique row identifier.
+chartevents,stopped,varchar,50,√,NA,null,"Text string indicating the stopped status of an event (i.e. stopped, not stopped)."
+chartevents,storetime,timestamp,22,√,NA,null,Time when the event was recorded in the system.
+chartevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+chartevents,value,varchar,255,√,NA,null,Value of the event as a text string.
+chartevents,valuenum,float8,"17,17",√,NA,null,Value of the event as a number.
+chartevents,valueuom,varchar,50,√,NA,null,Unit of measurement.
+chartevents,warning,int4,10,√,NA,null,Flag to highlight that the value has triggered a warning.
+chartevents_1,cgid,int4,10,√,NA,null,
+chartevents_1,charttime,timestamp,22,√,NA,null,
+chartevents_1,error,int4,10,√,NA,null,
+chartevents_1,hadm_id,int4,10,√,NA,null,
+chartevents_1,icustay_id,int4,10,√,NA,null,
+chartevents_1,itemid,int4,10,√,NA,null,
+chartevents_1,resultstatus,varchar,50,√,NA,null,
+chartevents_1,row_id,int4,10,,NA,,
+chartevents_1,stopped,varchar,50,√,NA,null,
+chartevents_1,storetime,timestamp,22,√,NA,null,
+chartevents_1,subject_id,int4,10,,NA,,
+chartevents_1,value,varchar,255,√,NA,null,
+chartevents_1,valuenum,float8,"17,17",√,NA,null,
+chartevents_1,valueuom,varchar,50,√,NA,null,
+chartevents_1,warning,int4,10,√,NA,null,
+chartevents_10,cgid,int4,10,√,NA,null,
+chartevents_10,charttime,timestamp,22,√,NA,null,
+chartevents_10,error,int4,10,√,NA,null,
+chartevents_10,hadm_id,int4,10,√,NA,null,
+chartevents_10,icustay_id,int4,10,√,NA,null,
+chartevents_10,itemid,int4,10,√,NA,null,
+chartevents_10,resultstatus,varchar,50,√,NA,null,
+chartevents_10,row_id,int4,10,,NA,,
+chartevents_10,stopped,varchar,50,√,NA,null,
+chartevents_10,storetime,timestamp,22,√,NA,null,
+chartevents_10,subject_id,int4,10,,NA,,
+chartevents_10,value,varchar,255,√,NA,null,
+chartevents_10,valuenum,float8,"17,17",√,NA,null,
+chartevents_10,valueuom,varchar,50,√,NA,null,
+chartevents_10,warning,int4,10,√,NA,null,
+chartevents_11,cgid,int4,10,√,NA,null,
+chartevents_11,charttime,timestamp,22,√,NA,null,
+chartevents_11,error,int4,10,√,NA,null,
+chartevents_11,hadm_id,int4,10,√,NA,null,
+chartevents_11,icustay_id,int4,10,√,NA,null,
+chartevents_11,itemid,int4,10,√,NA,null,
+chartevents_11,resultstatus,varchar,50,√,NA,null,
+chartevents_11,row_id,int4,10,,NA,,
+chartevents_11,stopped,varchar,50,√,NA,null,
+chartevents_11,storetime,timestamp,22,√,NA,null,
+chartevents_11,subject_id,int4,10,,NA,,
+chartevents_11,value,varchar,255,√,NA,null,
+chartevents_11,valuenum,float8,"17,17",√,NA,null,
+chartevents_11,valueuom,varchar,50,√,NA,null,
+chartevents_11,warning,int4,10,√,NA,null,
+chartevents_12,cgid,int4,10,√,NA,null,
+chartevents_12,charttime,timestamp,22,√,NA,null,
+chartevents_12,error,int4,10,√,NA,null,
+chartevents_12,hadm_id,int4,10,√,NA,null,
+chartevents_12,icustay_id,int4,10,√,NA,null,
+chartevents_12,itemid,int4,10,√,NA,null,
+chartevents_12,resultstatus,varchar,50,√,NA,null,
+chartevents_12,row_id,int4,10,,NA,,
+chartevents_12,stopped,varchar,50,√,NA,null,
+chartevents_12,storetime,timestamp,22,√,NA,null,
+chartevents_12,subject_id,int4,10,,NA,,
+chartevents_12,value,varchar,255,√,NA,null,
+chartevents_12,valuenum,float8,"17,17",√,NA,null,
+chartevents_12,valueuom,varchar,50,√,NA,null,
+chartevents_12,warning,int4,10,√,NA,null,
+chartevents_13,cgid,int4,10,√,NA,null,
+chartevents_13,charttime,timestamp,22,√,NA,null,
+chartevents_13,error,int4,10,√,NA,null,
+chartevents_13,hadm_id,int4,10,√,NA,null,
+chartevents_13,icustay_id,int4,10,√,NA,null,
+chartevents_13,itemid,int4,10,√,NA,null,
+chartevents_13,resultstatus,varchar,50,√,NA,null,
+chartevents_13,row_id,int4,10,,NA,,
+chartevents_13,stopped,varchar,50,√,NA,null,
+chartevents_13,storetime,timestamp,22,√,NA,null,
+chartevents_13,subject_id,int4,10,,NA,,
+chartevents_13,value,varchar,255,√,NA,null,
+chartevents_13,valuenum,float8,"17,17",√,NA,null,
+chartevents_13,valueuom,varchar,50,√,NA,null,
+chartevents_13,warning,int4,10,√,NA,null,
+chartevents_14,cgid,int4,10,√,NA,null,
+chartevents_14,charttime,timestamp,22,√,NA,null,
+chartevents_14,error,int4,10,√,NA,null,
+chartevents_14,hadm_id,int4,10,√,NA,null,
+chartevents_14,icustay_id,int4,10,√,NA,null,
+chartevents_14,itemid,int4,10,√,NA,null,
+chartevents_14,resultstatus,varchar,50,√,NA,null,
+chartevents_14,row_id,int4,10,,NA,,
+chartevents_14,stopped,varchar,50,√,NA,null,
+chartevents_14,storetime,timestamp,22,√,NA,null,
+chartevents_14,subject_id,int4,10,,NA,,
+chartevents_14,value,varchar,255,√,NA,null,
+chartevents_14,valuenum,float8,"17,17",√,NA,null,
+chartevents_14,valueuom,varchar,50,√,NA,null,
+chartevents_14,warning,int4,10,√,NA,null,
+chartevents_2,cgid,int4,10,√,NA,null,
+chartevents_2,charttime,timestamp,22,√,NA,null,
+chartevents_2,error,int4,10,√,NA,null,
+chartevents_2,hadm_id,int4,10,√,NA,null,
+chartevents_2,icustay_id,int4,10,√,NA,null,
+chartevents_2,itemid,int4,10,√,NA,null,
+chartevents_2,resultstatus,varchar,50,√,NA,null,
+chartevents_2,row_id,int4,10,,NA,,
+chartevents_2,stopped,varchar,50,√,NA,null,
+chartevents_2,storetime,timestamp,22,√,NA,null,
+chartevents_2,subject_id,int4,10,,NA,,
+chartevents_2,value,varchar,255,√,NA,null,
+chartevents_2,valuenum,float8,"17,17",√,NA,null,
+chartevents_2,valueuom,varchar,50,√,NA,null,
+chartevents_2,warning,int4,10,√,NA,null,
+chartevents_3,cgid,int4,10,√,NA,null,
+chartevents_3,charttime,timestamp,22,√,NA,null,
+chartevents_3,error,int4,10,√,NA,null,
+chartevents_3,hadm_id,int4,10,√,NA,null,
+chartevents_3,icustay_id,int4,10,√,NA,null,
+chartevents_3,itemid,int4,10,√,NA,null,
+chartevents_3,resultstatus,varchar,50,√,NA,null,
+chartevents_3,row_id,int4,10,,NA,,
+chartevents_3,stopped,varchar,50,√,NA,null,
+chartevents_3,storetime,timestamp,22,√,NA,null,
+chartevents_3,subject_id,int4,10,,NA,,
+chartevents_3,value,varchar,255,√,NA,null,
+chartevents_3,valuenum,float8,"17,17",√,NA,null,
+chartevents_3,valueuom,varchar,50,√,NA,null,
+chartevents_3,warning,int4,10,√,NA,null,
+chartevents_4,cgid,int4,10,√,NA,null,
+chartevents_4,charttime,timestamp,22,√,NA,null,
+chartevents_4,error,int4,10,√,NA,null,
+chartevents_4,hadm_id,int4,10,√,NA,null,
+chartevents_4,icustay_id,int4,10,√,NA,null,
+chartevents_4,itemid,int4,10,√,NA,null,
+chartevents_4,resultstatus,varchar,50,√,NA,null,
+chartevents_4,row_id,int4,10,,NA,,
+chartevents_4,stopped,varchar,50,√,NA,null,
+chartevents_4,storetime,timestamp,22,√,NA,null,
+chartevents_4,subject_id,int4,10,,NA,,
+chartevents_4,value,varchar,255,√,NA,null,
+chartevents_4,valuenum,float8,"17,17",√,NA,null,
+chartevents_4,valueuom,varchar,50,√,NA,null,
+chartevents_4,warning,int4,10,√,NA,null,
+chartevents_5,cgid,int4,10,√,NA,null,
+chartevents_5,charttime,timestamp,22,√,NA,null,
+chartevents_5,error,int4,10,√,NA,null,
+chartevents_5,hadm_id,int4,10,√,NA,null,
+chartevents_5,icustay_id,int4,10,√,NA,null,
+chartevents_5,itemid,int4,10,√,NA,null,
+chartevents_5,resultstatus,varchar,50,√,NA,null,
+chartevents_5,row_id,int4,10,,NA,,
+chartevents_5,stopped,varchar,50,√,NA,null,
+chartevents_5,storetime,timestamp,22,√,NA,null,
+chartevents_5,subject_id,int4,10,,NA,,
+chartevents_5,value,varchar,255,√,NA,null,
+chartevents_5,valuenum,float8,"17,17",√,NA,null,
+chartevents_5,valueuom,varchar,50,√,NA,null,
+chartevents_5,warning,int4,10,√,NA,null,
+chartevents_6,cgid,int4,10,√,NA,null,
+chartevents_6,charttime,timestamp,22,√,NA,null,
+chartevents_6,error,int4,10,√,NA,null,
+chartevents_6,hadm_id,int4,10,√,NA,null,
+chartevents_6,icustay_id,int4,10,√,NA,null,
+chartevents_6,itemid,int4,10,√,NA,null,
+chartevents_6,resultstatus,varchar,50,√,NA,null,
+chartevents_6,row_id,int4,10,,NA,,
+chartevents_6,stopped,varchar,50,√,NA,null,
+chartevents_6,storetime,timestamp,22,√,NA,null,
+chartevents_6,subject_id,int4,10,,NA,,
+chartevents_6,value,varchar,255,√,NA,null,
+chartevents_6,valuenum,float8,"17,17",√,NA,null,
+chartevents_6,valueuom,varchar,50,√,NA,null,
+chartevents_6,warning,int4,10,√,NA,null,
+chartevents_7,cgid,int4,10,√,NA,null,
+chartevents_7,charttime,timestamp,22,√,NA,null,
+chartevents_7,error,int4,10,√,NA,null,
+chartevents_7,hadm_id,int4,10,√,NA,null,
+chartevents_7,icustay_id,int4,10,√,NA,null,
+chartevents_7,itemid,int4,10,√,NA,null,
+chartevents_7,resultstatus,varchar,50,√,NA,null,
+chartevents_7,row_id,int4,10,,NA,,
+chartevents_7,stopped,varchar,50,√,NA,null,
+chartevents_7,storetime,timestamp,22,√,NA,null,
+chartevents_7,subject_id,int4,10,,NA,,
+chartevents_7,value,varchar,255,√,NA,null,
+chartevents_7,valuenum,float8,"17,17",√,NA,null,
+chartevents_7,valueuom,varchar,50,√,NA,null,
+chartevents_7,warning,int4,10,√,NA,null,
+chartevents_8,cgid,int4,10,√,NA,null,
+chartevents_8,charttime,timestamp,22,√,NA,null,
+chartevents_8,error,int4,10,√,NA,null,
+chartevents_8,hadm_id,int4,10,√,NA,null,
+chartevents_8,icustay_id,int4,10,√,NA,null,
+chartevents_8,itemid,int4,10,√,NA,null,
+chartevents_8,resultstatus,varchar,50,√,NA,null,
+chartevents_8,row_id,int4,10,,NA,,
+chartevents_8,stopped,varchar,50,√,NA,null,
+chartevents_8,storetime,timestamp,22,√,NA,null,
+chartevents_8,subject_id,int4,10,,NA,,
+chartevents_8,value,varchar,255,√,NA,null,
+chartevents_8,valuenum,float8,"17,17",√,NA,null,
+chartevents_8,valueuom,varchar,50,√,NA,null,
+chartevents_8,warning,int4,10,√,NA,null,
+chartevents_9,cgid,int4,10,√,NA,null,
+chartevents_9,charttime,timestamp,22,√,NA,null,
+chartevents_9,error,int4,10,√,NA,null,
+chartevents_9,hadm_id,int4,10,√,NA,null,
+chartevents_9,icustay_id,int4,10,√,NA,null,
+chartevents_9,itemid,int4,10,√,NA,null,
+chartevents_9,resultstatus,varchar,50,√,NA,null,
+chartevents_9,row_id,int4,10,,NA,,
+chartevents_9,stopped,varchar,50,√,NA,null,
+chartevents_9,storetime,timestamp,22,√,NA,null,
+chartevents_9,subject_id,int4,10,,NA,,
+chartevents_9,value,varchar,255,√,NA,null,
+chartevents_9,valuenum,float8,"17,17",√,NA,null,
+chartevents_9,valueuom,varchar,50,√,NA,null,
+chartevents_9,warning,int4,10,√,NA,null,
+cptevents,chartdate,timestamp,22,√,NA,null,"Date when the event occured, if available."
+cptevents,costcenter,varchar,10,,NA,,"Center recording the code, for example the ICU or the respiratory unit."
+cptevents,cpt_cd,varchar,10,,NA,,Current Procedural Terminology code.
+cptevents,cpt_number,int4,10,√,NA,null,Numerical element of the Current Procedural Terminology code.
+cptevents,cpt_suffix,varchar,5,√,NA,null,"Text element of the Current Procedural Terminology, if any. Indicates code category."
+cptevents,description,varchar,200,√,NA,null,"Description of the Current Procedural Terminology, if available."
+cptevents,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+cptevents,row_id,int4,10,,NA,,Unique row identifier.
+cptevents,sectionheader,varchar,50,√,NA,null,High-level section of the Current Procedural Terminology code.
+cptevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+cptevents,subsectionheader,varchar,255,√,NA,null,Subsection of the Current Procedural Terminology code.
+cptevents,ticket_id_seq,int4,10,√,NA,null,"Sequence number of the event, derived from the ticket ID."
+d_cpt,category,int2,5,,NA,,Code category.
+d_cpt,codesuffix,varchar,5,√,NA,null,"Text element of the Current Procedural Terminology, if any."
+d_cpt,maxcodeinsubsection,int4,10,,NA,,Maximum code within the subsection.
+d_cpt,mincodeinsubsection,int4,10,,NA,,Minimum code within the subsection.
+d_cpt,row_id,int4,10,,NA,,Unique row identifier.
+d_cpt,sectionheader,varchar,50,,NA,,Section header.
+d_cpt,sectionrange,varchar,100,,NA,,Range of codes within the high-level section.
+d_cpt,subsectionheader,varchar,255,,NA,,Subsection header.
+d_cpt,subsectionrange,varchar,100,,NA,,Range of codes within the subsection.
+d_icd_diagnoses,icd9_code,varchar,10,,NA,,"ICD9 code - note that this is a fixed length character field, as whitespaces are important in uniquely identifying ICD-9 codes."
+d_icd_diagnoses,long_title,varchar,255,,NA,,Long title associated with the code.
+d_icd_diagnoses,row_id,int4,10,,NA,,Unique row identifier.
+d_icd_diagnoses,short_title,varchar,50,,NA,,Short title associated with the code.
+d_icd_procedures,icd9_code,varchar,10,,NA,,"ICD9 code - note that this is a fixed length character field, as whitespaces are important in uniquely identifying ICD-9 codes."
+d_icd_procedures,long_title,varchar,255,,NA,,Long title associated with the code.
+d_icd_procedures,row_id,int4,10,,NA,,Unique row identifier.
+d_icd_procedures,short_title,varchar,50,,NA,,Short title associated with the code.
+d_items,abbreviation,varchar,100,√,NA,null,Abbreviation associated with the item.
+d_items,category,varchar,100,√,NA,null,Category of data which the concept falls under.
+d_items,conceptid,int4,10,√,NA,null,Identifier used to harmonize concepts identified by multiple ITEMIDs. CONCEPTIDs are planned but not yet implemented (all values are NULL).
+d_items,dbsource,varchar,20,√,NA,null,Source database of the item.
+d_items,itemid,int4,10,,NA,,Primary key. Identifies the charted item.
+d_items,label,varchar,200,√,NA,null,Label identifying the item.
+d_items,linksto,varchar,50,√,NA,null,Table which contains data for the given ITEMID.
+d_items,param_type,varchar,30,√,NA,null,"Type of item, for example solution or ingredient."
+d_items,row_id,int4,10,,NA,,Unique row identifier.
+d_items,unitname,varchar,100,√,NA,null,Unit associated with the item.
+d_labitems,category,varchar,100,,NA,,"Category of item, for example chemistry or hematology."
+d_labitems,fluid,varchar,100,,NA,,"Fluid associated with the item, for example blood or urine."
+d_labitems,itemid,int4,10,,NA,,Foreign key. Identifies the charted item.
+d_labitems,label,varchar,100,,NA,,Label identifying the item.
+d_labitems,loinc_code,varchar,100,√,NA,null,"Logical Observation Identifiers Names and Codes (LOINC) mapped to the item, if available."
+d_labitems,row_id,int4,10,,NA,,Unique row identifier.
+datetimeevents,cgid,int4,10,,NA,,Foreign key. Identifies the caregiver.
+datetimeevents,charttime,timestamp,22,,NA,,Time when the event occured.
+datetimeevents,error,int2,5,√,NA,null,Flag to highlight an error with the event.
+datetimeevents,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+datetimeevents,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+datetimeevents,itemid,int4,10,,NA,,Foreign key. Identifies the charted item.
+datetimeevents,resultstatus,varchar,50,√,NA,null,Result status of lab data.
+datetimeevents,row_id,int4,10,,NA,,Unique row identifier.
+datetimeevents,stopped,varchar,50,√,NA,null,Event was explicitly marked as stopped. Infrequently used by caregivers.
+datetimeevents,storetime,timestamp,22,,NA,,Time when the event was recorded in the system.
+datetimeevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+datetimeevents,value,timestamp,22,√,NA,null,Value of the event as a text string.
+datetimeevents,valueuom,varchar,50,,NA,,Unit of measurement.
+datetimeevents,warning,int2,5,√,NA,null,Flag to highlight that the value has triggered a warning.
+diagnoses_icd,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+diagnoses_icd,icd9_code,varchar,10,√,NA,null,ICD9 code for the diagnosis.
+diagnoses_icd,row_id,int4,10,,NA,,Unique row identifier.
+diagnoses_icd,seq_num,int4,10,√,NA,null,Priority of the code. Sequence 1 is the primary code.
+diagnoses_icd,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+drgcodes,description,varchar,255,√,NA,null,Description of the Diagnosis-Related Group
+drgcodes,drg_code,varchar,20,,NA,,Diagnosis-Related Group code
+drgcodes,drg_mortality,int2,5,√,NA,null,"Relative mortality, available for type APR only."
+drgcodes,drg_severity,int2,5,√,NA,null,"Relative severity, available for type APR only."
+drgcodes,drg_type,varchar,20,,NA,,"Type of Diagnosis-Related Group, for example APR is All Patient Refined"
+drgcodes,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+drgcodes,row_id,int4,10,,NA,,Unique row identifier.
+drgcodes,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+icustays,dbsource,varchar,20,,NA,,Source database of the item.
+icustays,first_careunit,varchar,20,,NA,,First careunit associated with the ICU stay.
+icustays,first_wardid,int2,5,,NA,,Identifier for the first ward the patient was located in.
+icustays,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+icustays,icustay_id,int4,10,,NA,,Primary key. Identifies the ICU stay.
+icustays,intime,timestamp,22,,NA,,Time of admission to the ICU.
+icustays,last_careunit,varchar,20,,NA,,Last careunit associated with the ICU stay.
+icustays,last_wardid,int2,5,,NA,,Identifier for the last ward the patient is located in.
+icustays,los,float8,"17,17",√,NA,null,Length of stay in the ICU in fractional days.
+icustays,outtime,timestamp,22,√,NA,null,Time of discharge from the ICU.
+icustays,row_id,int4,10,,NA,,Unique row identifier.
+icustays,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+inputevents_cv,amount,float8,"17,17",√,NA,null,Amount of the item administered to the patient.
+inputevents_cv,amountuom,varchar,30,√,NA,null,Unit of measurement for the amount.
+inputevents_cv,cgid,int4,10,√,NA,null,Foreign key. Identifies the caregiver.
+inputevents_cv,charttime,timestamp,22,√,NA,null,Time of that the input was started or received.
+inputevents_cv,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+inputevents_cv,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+inputevents_cv,itemid,int4,10,√,NA,null,Foreign key. Identifies the charted item.
+inputevents_cv,linkorderid,int4,10,√,NA,null,Identifier linking orders across multiple administrations. LINKORDERID is always equal to the first occuring ORDERID of the series.
+inputevents_cv,newbottle,int4,10,√,NA,null,Indicates when a new bottle of the solution was hung at the bedside.
+inputevents_cv,orderid,int4,10,√,NA,null,Identifier linking items which are grouped in a solution.
+inputevents_cv,originalamount,float8,"17,17",√,NA,null,Amount of the item which was originally charted.
+inputevents_cv,originalamountuom,varchar,30,√,NA,null,Unit of measurement for the original amount.
+inputevents_cv,originalrate,float8,"17,17",√,NA,null,Rate of administration originally chosen for the item.
+inputevents_cv,originalrateuom,varchar,30,√,NA,null,Unit of measurement for the rate originally chosen.
+inputevents_cv,originalroute,varchar,30,√,NA,null,Route of administration originally chosen for the item.
+inputevents_cv,originalsite,varchar,30,√,NA,null,Anatomical site for the original administration of the item.
+inputevents_cv,rate,float8,"17,17",√,NA,null,Rate at which the item is being administered to the patient.
+inputevents_cv,rateuom,varchar,30,√,NA,null,Unit of measurement for the rate.
+inputevents_cv,row_id,int4,10,,NA,,Unique row identifier.
+inputevents_cv,stopped,varchar,30,√,NA,null,Event was explicitly marked as stopped. Infrequently used by caregivers.
+inputevents_cv,storetime,timestamp,22,√,NA,null,Time when the event was recorded in the system.
+inputevents_cv,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+inputevents_mv,amount,float8,"17,17",√,NA,null,Amount of the item administered to the patient.
+inputevents_mv,amountuom,varchar,30,√,NA,null,Unit of measurement for the amount.
+inputevents_mv,cancelreason,int2,5,√,NA,null,"Reason for cancellation, if cancelled."
+inputevents_mv,cgid,int4,10,√,NA,null,Foreign key. Identifies the caregiver.
+inputevents_mv,comments_canceledby,varchar,40,√,NA,null,The title of the caregiver who canceled the order.
+inputevents_mv,comments_date,timestamp,22,√,NA,null,Time at which the caregiver edited or cancelled the order.
+inputevents_mv,comments_editedby,varchar,30,√,NA,null,The title of the caregiver who edited the order.
+inputevents_mv,continueinnextdept,int2,5,√,NA,null,Indicates whether the item will be continued in the next department where the patient is transferred to.
+inputevents_mv,endtime,timestamp,22,√,NA,null,Time when the event ended.
+inputevents_mv,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+inputevents_mv,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+inputevents_mv,isopenbag,int2,5,√,NA,null,Indicates whether the bag containing the solution is open.
+inputevents_mv,itemid,int4,10,√,NA,null,Foreign key. Identifies the charted item.
+inputevents_mv,linkorderid,int4,10,√,NA,null,Identifier linking orders across multiple administrations. LINKORDERID is always equal to the first occuring ORDERID of the series.
+inputevents_mv,ordercategorydescription,varchar,50,√,NA,null,The type of item administered.
+inputevents_mv,ordercategoryname,varchar,100,√,NA,null,A group which the item corresponds to.
+inputevents_mv,ordercomponenttypedescription,varchar,200,√,NA,null,The role of the item administered in the order.
+inputevents_mv,orderid,int4,10,√,NA,null,Identifier linking items which are grouped in a solution.
+inputevents_mv,originalamount,float8,"17,17",√,NA,null,Amount of the item which was originally charted.
+inputevents_mv,originalrate,float8,"17,17",√,NA,null,Rate of administration originally chosen for the item.
+inputevents_mv,patientweight,float8,"17,17",√,NA,null,"For drugs dosed by weight, the value of the weight used in the calculation."
+inputevents_mv,rate,float8,"17,17",√,NA,null,Rate at which the item is being administered to the patient.
+inputevents_mv,rateuom,varchar,30,√,NA,null,Unit of measurement for the rate.
+inputevents_mv,row_id,int4,10,,NA,,Unique row identifier.
+inputevents_mv,secondaryordercategoryname,varchar,100,√,NA,null,A secondary group for those items with more than one grouping possible.
+inputevents_mv,starttime,timestamp,22,√,NA,null,Time when the event started.
+inputevents_mv,statusdescription,varchar,30,√,NA,null,"The current status of the order: stopped, rewritten, running or cancelled."
+inputevents_mv,storetime,timestamp,22,√,NA,null,Time when the event was recorded in the system.
+inputevents_mv,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+inputevents_mv,totalamount,float8,"17,17",√,NA,null,The total amount in the solution for the given item.
+inputevents_mv,totalamountuom,varchar,50,√,NA,null,Unit of measurement for the total amount in the solution.
+labevents,charttime,timestamp,22,√,NA,null,Time when the event occured.
+labevents,flag,varchar,20,√,NA,null,Flag indicating whether the lab test value is considered abnormal (null if the test was normal).
+labevents,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+labevents,itemid,int4,10,,NA,,Foreign key. Identifies the charted item.
+labevents,row_id,int4,10,,NA,,Unique row identifier.
+labevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+labevents,value,varchar,200,√,NA,null,Value of the event as a text string.
+labevents,valuenum,float8,"17,17",√,NA,null,Value of the event as a number.
+labevents,valueuom,varchar,20,√,NA,null,Unit of measurement.
+microbiologyevents,ab_itemid,int4,10,√,NA,null,Foreign key. Identifies the antibody.
+microbiologyevents,ab_name,varchar,30,√,NA,null,Name of the antibody used.
+microbiologyevents,chartdate,timestamp,22,√,NA,null,Date when the event occured.
+microbiologyevents,charttime,timestamp,22,√,NA,null,"Time when the event occured, if available."
+microbiologyevents,dilution_comparison,varchar,20,√,NA,null,"The comparison component of DILUTION_TEXT: either <= (less than or equal), = (equal), or >= (greater than or equal), or null when not available."
+microbiologyevents,dilution_text,varchar,10,√,NA,null,The dilution amount tested for and the comparison which was made against it (e.g. <=4).
+microbiologyevents,dilution_value,float8,"17,17",√,NA,null,The value component of DILUTION_TEXT: must be a floating point number.
+microbiologyevents,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+microbiologyevents,interpretation,varchar,5,√,NA,null,Interpretation of the test.
+microbiologyevents,isolate_num,int2,5,√,NA,null,Isolate number associated with the test.
+microbiologyevents,org_itemid,int4,10,√,NA,null,Foreign key. Identifies the organism.
+microbiologyevents,org_name,varchar,100,√,NA,null,Name of the organism.
+microbiologyevents,row_id,int4,10,,NA,,Unique row identifier.
+microbiologyevents,spec_itemid,int4,10,√,NA,null,Foreign key. Identifies the specimen.
+microbiologyevents,spec_type_desc,varchar,100,√,NA,null,Description of the specimen.
+microbiologyevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+noteevents,category,varchar,50,√,NA,null,"Category of the note, e.g. Discharge summary."
+noteevents,cgid,int4,10,√,NA,null,Foreign key. Identifies the caregiver.
+noteevents,chartdate,timestamp,22,√,NA,null,Date when the note was charted.
+noteevents,charttime,timestamp,22,√,NA,null,Date and time when the note was charted. Note that some notes (e.g. discharge summaries) do not have a time associated with them: these notes have NULL in this column.
+noteevents,description,varchar,255,√,NA,null,"A more detailed categorization for the note, sometimes entered by free-text."
+noteevents,hadm_id,int4,10,√,NA,null,Foreign key. Identifies the hospital stay.
+noteevents,iserror,bpchar,1,√,NA,null,Flag to highlight an error with the note.
+noteevents,row_id,int4,10,,NA,,Unique row identifier.
+noteevents,storetime,timestamp,22,√,NA,null,
+noteevents,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+noteevents,text,text,2147483647,√,NA,null,Content of the note.
+outputevents,cgid,int4,10,√,NA,null,
+outputevents,charttime,timestamp,22,√,NA,null,
+outputevents,hadm_id,int4,10,√,NA,null,
+outputevents,icustay_id,int4,10,√,NA,null,
+outputevents,iserror,int4,10,√,NA,null,
+outputevents,itemid,int4,10,√,NA,null,
+outputevents,newbottle,bpchar,1,√,NA,null,
+outputevents,row_id,int4,10,,NA,,
+outputevents,stopped,varchar,30,√,NA,null,
+outputevents,storetime,timestamp,22,√,NA,null,
+outputevents,subject_id,int4,10,,NA,,
+outputevents,value,float8,"17,17",√,NA,null,
+outputevents,valueuom,varchar,30,√,NA,null,
+patients,dob,timestamp,22,,NA,,Date of birth.
+patients,dod,timestamp,22,√,NA,null,Date of death. Null if the patient was alive at least 90 days post hospital discharge.
+patients,dod_hosp,timestamp,22,√,NA,null,Date of death recorded in the hospital records.
+patients,dod_ssn,timestamp,22,√,NA,null,Date of death recorded in the social security records.
+patients,expire_flag,int4,10,,NA,,Flag indicating that the patient has died.
+patients,gender,varchar,5,,NA,,Gender.
+patients,row_id,int4,10,,NA,,Unique row identifier.
+patients,subject_id,int4,10,,NA,,Primary key. Identifies the patient.
+prescriptions,dose_unit_rx,varchar,120,√,NA,null,Unit of measurement associated with the dose.
+prescriptions,dose_val_rx,varchar,120,√,NA,null,Dose of the drug prescribed.
+prescriptions,drug,varchar,100,,NA,,Name of the drug.
+prescriptions,drug_name_generic,varchar,100,√,NA,null,Generic drug name.
+prescriptions,drug_name_poe,varchar,100,√,NA,null,Name of the drug on the Provider Order Entry interface.
+prescriptions,drug_type,varchar,100,,NA,,Type of drug.
+prescriptions,enddate,timestamp,22,√,NA,null,Date when the prescription ended.
+prescriptions,form_unit_disp,varchar,120,√,NA,null,Unit of measurement associated with the formulation.
+prescriptions,form_val_disp,varchar,120,√,NA,null,Amount of the formulation dispensed.
+prescriptions,formulary_drug_cd,varchar,120,√,NA,null,Formulary drug code.
+prescriptions,gsn,varchar,200,√,NA,null,Generic Sequence Number.
+prescriptions,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+prescriptions,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+prescriptions,ndc,varchar,120,√,NA,null,National Drug Code.
+prescriptions,prod_strength,varchar,120,√,NA,null,Strength of the drug (product).
+prescriptions,route,varchar,120,√,NA,null,"Route of administration, for example intravenous or oral."
+prescriptions,row_id,int4,10,,NA,,Unique row identifier.
+prescriptions,startdate,timestamp,22,√,NA,null,Date when the prescription started.
+prescriptions,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+procedureevents_mv,cancelreason,int2,5,√,NA,null,
+procedureevents_mv,cgid,int4,10,√,NA,null,
+procedureevents_mv,comments_canceledby,varchar,30,√,NA,null,
+procedureevents_mv,comments_date,timestamp,22,√,NA,null,
+procedureevents_mv,comments_editedby,varchar,30,√,NA,null,
+procedureevents_mv,continueinnextdept,int2,5,√,NA,null,
+procedureevents_mv,endtime,timestamp,22,√,NA,null,
+procedureevents_mv,hadm_id,int4,10,,NA,,
+procedureevents_mv,icustay_id,int4,10,√,NA,null,
+procedureevents_mv,isopenbag,int2,5,√,NA,null,
+procedureevents_mv,itemid,int4,10,√,NA,null,
+procedureevents_mv,linkorderid,int4,10,√,NA,null,
+procedureevents_mv,location,varchar,30,√,NA,null,
+procedureevents_mv,locationcategory,varchar,30,√,NA,null,
+procedureevents_mv,ordercategorydescription,varchar,50,√,NA,null,
+procedureevents_mv,ordercategoryname,varchar,100,√,NA,null,
+procedureevents_mv,orderid,int4,10,√,NA,null,
+procedureevents_mv,row_id,int4,10,,NA,,
+procedureevents_mv,secondaryordercategoryname,varchar,100,√,NA,null,
+procedureevents_mv,starttime,timestamp,22,√,NA,null,
+procedureevents_mv,statusdescription,varchar,30,√,NA,null,
+procedureevents_mv,storetime,timestamp,22,√,NA,null,
+procedureevents_mv,subject_id,int4,10,,NA,,
+procedureevents_mv,value,float8,"17,17",√,NA,null,
+procedureevents_mv,valueuom,varchar,30,√,NA,null,
+procedures_icd,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+procedures_icd,icd9_code,varchar,10,,NA,,ICD9 code associated with the procedure.
+procedures_icd,row_id,int4,10,,NA,,Unique row identifier.
+procedures_icd,seq_num,int4,10,,NA,,Lower procedure numbers occurred earlier.
+procedures_icd,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+services,curr_service,varchar,20,√,NA,null,Current service type.
+services,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+services,prev_service,varchar,20,√,NA,null,Previous service type.
+services,row_id,int4,10,,NA,,Unique row identifier.
+services,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.
+services,transfertime,timestamp,22,,NA,,Time when the transfer occured.
+transfers,curr_careunit,varchar,20,√,NA,null,Current careunit.
+transfers,curr_wardid,int2,5,√,NA,null,Identifier for the current ward the patient is located in.
+transfers,dbsource,varchar,20,√,NA,null,Source database of the item.
+transfers,eventtype,varchar,20,√,NA,null,"Type of event, for example admission or transfer."
+transfers,hadm_id,int4,10,,NA,,Foreign key. Identifies the hospital stay.
+transfers,icustay_id,int4,10,√,NA,null,Foreign key. Identifies the ICU stay.
+transfers,intime,timestamp,22,√,NA,null,Time when the patient was transferred into the unit.
+transfers,los,float8,"17,17",√,NA,null,Length of stay in the unit in minutes.
+transfers,outtime,timestamp,22,√,NA,null,Time when the patient was transferred out of the unit.
+transfers,prev_careunit,varchar,20,√,NA,null,Previous careunit.
+transfers,prev_wardid,int2,5,√,NA,null,Identifier for the previous ward the patient was located in.
+transfers,row_id,int4,10,,NA,,Unique row identifier.
+transfers,subject_id,int4,10,,NA,,Foreign key. Identifies the patient.

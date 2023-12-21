@@ -1,0 +1,73 @@
+---
+title: "Session 1"
+format: html
+editor: visual
+---
+
+
+## **Relational database**
+
+That definition above itself introduces a new term. 
+
+What's a **relational database**?
+
+Let's start with the word "**database**". A database is a mechanism for data storage. In healthcare databases typically store data in objects called tables. Tables are comprised of columns (sometimes called 'fields') and rows (similar to data in an Excel spreadsheet or .csv file).
+
+When we add "**relational**" as a modifier, we mean that tables within the database are **related** to one another by columns they have in common (like a patient id column that appears in several different tables). Usually, with a relational database, you will use several tables to answer a question, and use information from one table to look up information in the next, like a series of clues.
+
+Consider, for example, these three sample tables. They are rectangular (or tabular) in shape and organize data in rows and columns. Can you identify the column in common? How could you figure out how many times Prairie Dawn had an encounter with `ed_ind` equal to 1?
+
+#### A Sample `demographics` table
+
+| patient_id | date_of_birth | sex | last_name  | first_name |
+|------------|---------------|-----|------------|------------|
+| ABC123     | 1970-03-15    | M   | Bird       | Big        |
+| TRSH789    | 1985-08-20    | M   | the Grouch | Oscar      |
+| SMLE321    | 1990-12-12    | F   | Dawn       | Prairie    |
+
+#### A Sample `encounters` table
+
+| patient_id | encounter_id | encounter_date | ed_ind |
+|------------|--------------|----------------|--------|
+| SMLE321    | 8827371048   | 2020-03-10     | 1      |
+| SMLE321    | 8829502289   | 2020-09-05     | 0      |
+| TRSH789    | 8837498101   | 2020-11-29     | 0      |
+| TRSH789    | 8871386401   | 2021-04-01     | 0      |
+| SMLE321    | 8901861569   | 2021-11-22     | 1      |
+| ABC123     | 8927551899   | 2021-12-30     | 0      |
+| ABC123     | 8954998113   | 2022-03-19     | 1      |
+
+#### A Sample `lab_order` table
+
+| patient_id | provider_id | lab_id  | order_date |     |
+|------------|-------------|---------|------------|-----|
+| ABC123     | 491272      | 8000412 | 2021-05-15 |     |
+| ABC123     | 491272      | 7960004 | 2022-02-01 |     |
+| SMLE321    | 223618      | 8000412 | 2020-08-19 |     |
+
+::: care
+<b style="color: rgb(var(--color-highlight));">A little encouragement...</b><br>
+
+If the idea of relational databases with tables that refer to one another feels confusing, you're not alone. In our example above, we discover the patient Prairie Dawn in our `demographics` table, and note that this patient has a patient_id of SMLE321. We can then use this patient ID to find **related** data in other tables. For example, in the `encounters` table and in the `medication_order` table, we never see the patient name "Prairie Dawn," but we **do** find her ID, SMLE321.
+
+Relational databases work by using data fields like IDs to allow us to find out data about a patient, or customer, or purchase order, or other thing we're interested in, by following the matching ID into other, **related** tables.
+:::
+
+The primary benefit of the **relational database** model is the ability to use columns containing the same data (things like patient IDs) to create complex reports combining information from multiple tables. This enables users of the data to derive specific information from the data in highly customizable ways.
+
+
+## SQL: A Definition
+
+To put it simply, **SQL** (**S**tructured **Q**uery **L**anguage) is a programming language used to interact with "**Relational Databases**". You can pronounce it as "sequel" or just say the letters S-Q-L.
+
+You can think of SQL as the computer code (the "Language" in Structured Query Language) that you can use to ask explicit questions (the "Query" in SQL) about the information in your Relational Database.
+
+::: history
+<b style="color: rgb(var(--color-highlight));">Historical context</b><br>
+
+Where did SQL come from? SQL was created in the early 1970's by IBM as a method for more easily accessing information from their internal database system.
+
+By 1979 Relational Software, Inc. (now Oracle Corporation) released the first commercially available implementation of SQL as a part of their Oracle V2 database application.
+
+Today SQL is the most common programming language for extracting and organizing data in relational database systems.
+:::

@@ -215,6 +215,6 @@ print_table_data <- function(table_name) {
 lapply(table_names, print_table_data)
 
 # Disconnect
-#dbDisconnect(db)
+dbDisconnect(db)
 
 ```

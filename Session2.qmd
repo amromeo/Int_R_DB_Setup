@@ -38,17 +38,49 @@ Structure of this database
 ## Simple sql
 
 ```{r}
-dbGetQuery(con,"SELECT * FROM ADMISSIONS LIMIT 5")
+labs_df <- dbGetQuery(con,"SELECT * FROM LABEVENTS LIMIT 5")
 
-admissions_df <- dbGetQuery(con,"SELECT * FROM ADMISSIONS LIMIT 5")
-
-admissions_df |>
-  filter(subject_id == 10011)
+labs_df |>
+  filter(row_id == 6244564)
 ```
 
 ## Joins
 
+```{r}
+labs_df <- dbGetQuery(con,"SELECT * FROM LABEVENTS")
 
+labs_df
+```
 
+```{r}
+labs_itms_df <- dbGetQuery(con,"SELECT * FROM D_LABITEMS")
+```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+labs_df |>
+  count(row_id) |>
+  filter(n > 1)
+
+labs_df |>
+  count(subject_id,charttime,itemid) |>
+  filter(n >1)
+
+```
+
+```{r}
+labs_df |>
+  inner_join(labs_itms_df, join_by(itemid))
+```
+
+```{r}
+labs_full_df <- dbGetQuery(con,"
+                           SELECT * 
+                           FROM LABEVENTS
+                           INNER JOIN D_LABITEMS on D_LABITEMS.itemid = LABEVENTS.itemid")
+                           ")
+```
+
+```{r}
+
+```
+

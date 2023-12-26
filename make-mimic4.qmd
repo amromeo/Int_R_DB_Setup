@@ -65,6 +65,16 @@ python /cloud/project/physionet.org/files/mimic-iv-demo/2.2/import.py
 ```
 
 ```{r}
-con4 <- connection_open(RSQLite::SQLite(), "/cloud/project/physionet.org/files/mimic-iv-demo/2.2/mimic4.db")
+con4 <- connection_open(RSQLite::SQLite(), "/cloud/project/mimic4.db")
 ```
+
+```{sql connection=con4}
+DROP TABLE IF EXISTS chartevents;
+```
+
+```{sql connection=con4}
+VACUUM;
+```
+
+
 

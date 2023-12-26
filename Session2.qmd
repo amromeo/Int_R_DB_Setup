@@ -2,6 +2,8 @@
 title: "Session2"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ## Connecting to a database
@@ -19,12 +21,12 @@ What you need:
 ```{r}
 library(connections)
 library(RSQLite)
-#con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
+library(DBI)
+# con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
 con <- connection_open(RSQLite::SQLite(), "mimic_database.sqlite")
 ```
 
 ```{r}
-library(DBI)
 dbListTables(con@con)
 ```
 
@@ -38,23 +40,72 @@ Structure of this database
 ## Simple sql
 
 ```{r}
-labs_df <- dbGetQuery(con,"SELECT * FROM LABEVENTS LIMIT 5")
+dbListFields(con,"LABEVENTS")
 
-labs_df |>
-  filter(row_id == 6244564)
+labs <- dbReadTable(con, "LABEVENTS")
 ```
 
-## Joins
+## Set up need for joins
+
 
 ```{r}
-labs_df <- dbGetQuery(con,"SELECT * FROM LABEVENTS")
+lab_items <- dbReadTable(con, "D_LABITEMS")
+```
 
-labs_df
+Question: What is the most commonly ordered lab?
+
+
+```{r}
+# Without Joins
+
+labs |> 
+  count(itemid, sort = TRUE)
+
 ```
 
 ```{r}
-labs_itms_df <- dbGetQuery(con,"SELECT * FROM D_LABITEMS")
+top_lab <- labs |> 
+  count(itemid, sort = TRUE) |>
+  slice_max(n) |> pull(itemid) # Too esoteric?
 ```
+
+```{r}
+lab_items |>
+  filter(itemid == top_lab)
+```
+
+```{r}
+library(DBI)
+# Assuming conn is your database connection
+result <- dbGetQuery(con, "SELECT p.subject_id FROM CPTEVENTS p")
+
+```
+
+```{sql connection=con}
+SELECT * FROM your_table;
+```
+
+
+```{sql, connection = con,  output.var="results"}
+SELECT *
+FROM PROCEDURES_ICD p
+JOIN CPTEVENTS c ON p.subject_id = c.subject_id AND p.hadm_id = c.hadm_id
+JOIN D_ICD_PROCEDURES icd on icd.icd9_code = p.icd9_code
+;
+
+
+WHERE p.icd9_code IN ('<icd_code_for_lab_order1>', '<icd_code_for_lab_order2>')
+   OR c.cpt_number IN ('<cpt_code_for_lab_order1>', '<cpt_code_for_lab_order2>')
+ORDER BY p.subject_id, p.hadm_id;
+
+```
+
+```{r}
+results |>
+  distinct(short_title) |> 
+  View()
+```
+
 
 ```{r}
 labs_df |>

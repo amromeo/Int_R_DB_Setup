@@ -22,8 +22,9 @@ What you need:
 library(connections)
 library(RSQLite)
 library(DBI)
+library(tidyverse)
 # con <- dbConnect(RSQLite::SQLite(), dbname = "mimic_database.sqlite")
-con <- connection_open(RSQLite::SQLite(), "mimic_database.sqlite")
+con <- connection_open(RSQLite::SQLite(), "mimic4.db")
 ```
 
 ```{r}
@@ -36,102 +37,4 @@ Check out connections tab
 ## Data Dictionary
 
 Structure of this database
-
-## Simple sql
-
-```{r}
-dbListFields(con,"LABEVENTS")
-
-labs <- dbReadTable(con, "LABEVENTS")
-```
-
-## Set up need for joins
-
-
-```{r}
-lab_items <- dbReadTable(con, "D_LABITEMS")
-```
-
-Question: What is the most commonly ordered lab?
-
-
-```{r}
-# Without Joins
-
-labs |> 
-  count(itemid, sort = TRUE)
-
-```
-
-```{r}
-top_lab <- labs |> 
-  count(itemid, sort = TRUE) |>
-  slice_max(n) |> pull(itemid) # Too esoteric?
-```
-
-```{r}
-lab_items |>
-  filter(itemid == top_lab)
-```
-
-```{r}
-library(DBI)
-# Assuming conn is your database connection
-result <- dbGetQuery(con, "SELECT p.subject_id FROM CPTEVENTS p")
-
-```
-
-```{sql connection=con}
-SELECT * FROM your_table;
-```
-
-
-```{sql, connection = con,  output.var="results"}
-SELECT *
-FROM PROCEDURES_ICD p
-JOIN CPTEVENTS c ON p.subject_id = c.subject_id AND p.hadm_id = c.hadm_id
-JOIN D_ICD_PROCEDURES icd on icd.icd9_code = p.icd9_code
-;
-
-
-WHERE p.icd9_code IN ('<icd_code_for_lab_order1>', '<icd_code_for_lab_order2>')
-   OR c.cpt_number IN ('<cpt_code_for_lab_order1>', '<cpt_code_for_lab_order2>')
-ORDER BY p.subject_id, p.hadm_id;
-
-```
-
-```{r}
-results |>
-  distinct(short_title) |> 
-  View()
-```
-
-
-```{r}
-labs_df |>
-  count(row_id) |>
-  filter(n > 1)
-
-labs_df |>
-  count(subject_id,charttime,itemid) |>
-  filter(n >1)
-
-```
-
-```{r}
-labs_df |>
-  inner_join(labs_itms_df, join_by(itemid))
-```
-
-```{r}
-labs_full_df <- dbGetQuery(con,"
-                           SELECT * 
-                           FROM LABEVENTS
-                           INNER JOIN D_LABITEMS on D_LABITEMS.itemid = LABEVENTS.itemid")
-                           ")
-```
-
-```{r}
-
-```
 

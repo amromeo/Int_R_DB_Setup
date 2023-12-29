@@ -278,7 +278,7 @@ joinedData_ex4 |>
 -   In cases where the left table (juniors) has more entries than the right (seniors), left joins show 'NA' for unmatchable entries.
 
 
-## Inner Joins
+### Inner Joins
 
 There are numerous types of joins that are supported by tidyverse but we'll only cover one other type, the inner join!
  
@@ -292,10 +292,19 @@ You are given two lists. One of surgical pathology cases over the past year that
 # Set seed for reproducibility
 set.seed(123)
 
+# Define a vector of melanoma types
+melanoma_types <- c("Superficial Spreading Melanoma", 
+                    "Nodular Melanoma", 
+                    "Lentigo Maligna Melanoma", 
+                    "Acral Lentiginous Melanoma", 
+                    "Desmoplastic Melanoma", 
+                    "Ocular Melanoma",
+                    "Plain Melanoma")
+
 # Create a tibble for melanoma testing
 melanoma_patients <- tibble(
   patient_id = sample(1:150, 100, replace = TRUE), 
-  melanoma_test_result = rep("Positive", 100),
+  melanoma_dx = sample(melanoma_types, 100, replace = TRUE),  # Sample 100 melanoma diagnoses
   surgical_case_number = 1:100
 )
 
@@ -313,6 +322,42 @@ head(braf_patients)
 
 ```
 
+#### Inner Joins
+
+An inner join is particularly useful in scenarios where we want to find matches between two datasets. In our case, we want to identify patients who have both melanoma and a recorded BRAF mutation status. Unlike a left join, an inner join only includes rows that have matching data in both datasets. This means that patients who don't have a matching record in both melanoma_patients and braf_patients will not appear in our final list.
+
+For your quality project, this is ideal. We're specifically interested in patients who have been tested for both melanoma and BRAF mutations.
+
+Here's how we can perform an inner join with the given data:
+
+```{r}
+# Perform an inner join
+matched_patients <- inner_join(melanoma_patients, braf_patients, by = "patient_id")
+
+# View the result
+matched_patients
+
+```
+
+This code will merge the two lists based on the patient_id column. Only patients who appear in both lists will be included in matched_patients.
+
+Now let's inspect the results. We expected to get a new list with:
+- One row per patient listing their melanoma diagnosis and their BRAF mutation status. 
+- Only patients that had both melanoma and BRAF mutation testing
+- No patients who do not have both melanoma and BRAF mutation testing
+
+Is that what we got? 
+
+To evaluate whether the results from the inner join meet the expectations, we'll perform a series of checks on the matched_patients data. This will help verify that the final dataset indeed contains only those patients who have undergone both melanoma diagnosis and BRAF mutation testing, with each row representing a unique patient along with their respective test results.
+
+#### Inspection and Analysis of matched_patients
+
+R code to follow. You get the point.
+
+#### To Summarize
+- Inner joins are best used when you need to match records across two datasets.
+- They help in isolating the subset of data that is common to both tables.
+- Unlike left joins, they do not include unmatched records.
 
 
 ```{sql connection=con}

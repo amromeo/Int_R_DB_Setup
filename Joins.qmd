@@ -130,8 +130,6 @@ seniorTable_ex1 <- seniorResidents_ex1 %>%
 (seniorTable_ex1)
 ```
 
-### Left Joins
-
 We need a new list that has the junior resident and their assigned senior resident. We want to (1) ensure that all the junior residents appear in the final list. Next to their name should be their assigned senior resident. (2) If there are more senior resident volunteers than junior trainees, we don't need them in the final list.
 
 A left join will accomplish this task. In a left join, every junior resident from our first list is included. This means all junior residents will be on the final list, with their corresponding senior residents next to them if available. If a junior resident doesn't have a matching senior (because there are fewer seniors than juniors), the senior's information will be left blank or marked as 'NA' (not available) in the combined list. This method ensures that every junior resident is accounted for (1), and no senior resident is included unless they have a junior to mentor (2), perfectly aligning with our mentorship program's objective to prioritize junior resident mentorship opportunities.
@@ -284,9 +282,36 @@ joinedData_ex4 |>
 
 There are numerous types of joins that are supported by tidyverse but we'll only cover one other type, the inner join!
  
-Imagine the following scenario. You are tasked with doing a quality project
+Imagine the following scenario. You are tasked with doing a quality project involving the evaluation of BRAF mutation status in samples from patients with melanoma. Since mutation positive patients are candidates for targeted therapies like BRAF inhibitors (e.g., vemurafenib, dabrafenib) it is important that these patients be screened for BRAF. Your project aims to determine the number of patients who have melanoma who are BRAF mutation positive and negative.
+
+You are given two lists. One of surgical pathology cases over the past year that were found to have melanoma and one of molecular pathology BRAF tests performed in the past year. Your task is to match these up to determine 
 
 
+```{r}
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Create a tibble for melanoma testing
+melanoma_patients <- tibble(
+  patient_id = sample(1:150, 100, replace = TRUE), 
+  melanoma_test_result = rep("Positive", 100),
+  surgical_case_number = 1:100
+)
+
+# Create a tibble for BRAF testing
+# Ensuring some overlap with melanoma patient IDs
+braf_patients <- tibble(
+  patient_id = sample(1:150, 100, replace = TRUE),
+  braf_test_result = sample(c("Positive", "Negative", "Indeterminate"), 100, replace = TRUE)
+)
+
+# Display the first few rows of each tibble
+head(melanoma_patients)
+head(braf_patients)
+
+
+```
 
 
 

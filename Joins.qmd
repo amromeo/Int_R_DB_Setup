@@ -9,6 +9,9 @@ editor_options:
 ## Need for Joins
 
 ```{r}
+library(DBI)
+library(tidyverse)
+
 dbListFields(con,"LABEVENTS")
 
 labs <- dbReadTable(con, "LABEVENTS")
@@ -129,7 +132,7 @@ seniorTable_ex1 <- seniorResidents_ex1 %>%
 
 ### Left Joins
 
-What you want to do is make a new list that has the junior resident and their assigned senior resident. We want to (1) ensure that all the junior residents appear in the final list. Next to their name should be their assigned senior resident. (2) If there are more senior resident volunteers than junior trainees, we don't need them in the final list.
+We need a new list that has the junior resident and their assigned senior resident. We want to (1) ensure that all the junior residents appear in the final list. Next to their name should be their assigned senior resident. (2) If there are more senior resident volunteers than junior trainees, we don't need them in the final list.
 
 A left join will accomplish this task. In a left join, every junior resident from our first list is included. This means all junior residents will be on the final list, with their corresponding senior residents next to them if available. If a junior resident doesn't have a matching senior (because there are fewer seniors than juniors), the senior's information will be left blank or marked as 'NA' (not available) in the combined list. This method ensures that every junior resident is accounted for (1), and no senior resident is included unless they have a junior to mentor (2), perfectly aligning with our mentorship program's objective to prioritize junior resident mentorship opportunities.
 
@@ -151,8 +154,9 @@ First we need to modify our lists slightly:
 # Data for junior and senior residents
 seniorResidents_ex2 <- tibble(
   Assignment = c(1:3,1:2),
-  `Senior Resident` = c("Alex Johnson", "Jamie Smith", "Taylor Brown", "Jordan Garcia", "Morgan Robinson")
+  `Senior Resident` = seniorResidents_ex1$`Senior Resident`
 )
+
 juniorResidents_ex2 <- juniorResidents_ex1 # Use same resident list as example 1
 
 # Apply colors and convert to HTML tables
@@ -275,7 +279,16 @@ joinedData_ex4 |>
 -   When multiple matches exist (like multiple seniors for one junior or multiple juniors for seniors), left joins can result in duplicated rows.
 -   In cases where the left table (juniors) has more entries than the right (seniors), left joins show 'NA' for unmatchable entries.
 
-The same would be true if we had multiple matches on the junioor resident side.
+
+## Inner Joins
+
+There are numerous types of joins that are supported by tidyverse but we'll only cover one other type, the inner join!
+ 
+Imagine the following scenario. You are tasked with doing a quality project
+
+
+
+
 
 ```{sql connection=con}
 -- Assuming conn is your database connection

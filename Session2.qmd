@@ -32,9 +32,9 @@ dbListTables(con@con)
 ```
 
 ## exercise
+
 Check out connections tab
 
 ## Data Dictionary
 
 Structure of this database
-

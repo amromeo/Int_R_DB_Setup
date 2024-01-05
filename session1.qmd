@@ -4,10 +4,9 @@ format: html
 editor: visual
 ---
 
-
 ## **Relational database**
 
-That definition above itself introduces a new term. 
+That definition above itself introduces a new term.
 
 What's a **relational database**?
 
@@ -54,7 +53,6 @@ Relational databases work by using data fields like IDs to allow us to find out 
 :::
 
 The primary benefit of the **relational database** model is the ability to use columns containing the same data (things like patient IDs) to create complex reports combining information from multiple tables. This enables users of the data to derive specific information from the data in highly customizable ways.
-
 
 ## SQL: A Definition
 

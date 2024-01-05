@@ -1,0 +1,86 @@
+---
+title: "connect to dbs"
+format: html
+editor: visual
+---
+
+```{r}
+library(connections)
+library(RSQLite)
+library(DBI)
+library(tidyverse)
+library(dbplyr)
+
+con <- connection_open(RSQLite::SQLite(), "mimic4.db")
+```
+we can use tbl() to take a reference to tables in teh database
+
+
+```{r}
+labevents <- tbl(con, "labevents")
+```
+
+
+## Generating queries
+
+To interact with a database you usually use SQL, the Structured Query Language. The goal of dbplyr is to automatically generate SQL for you so that you’re not forced to use it. 
+
+Most of the time you don’t need to know anything about SQL, and you can continue to use the dplyr verbs that you’re already familiar with:
+
+```{r}
+# Without Joins
+
+labevents
+
+```
+
+```{r}
+labevents |>
+  select(subject_id,itemid,value)
+```
+
+```{r}
+labevents |>
+  filter(priority == "STAT")
+```
+
+```{r}
+labevents |>
+  group_by(specimen_id) |>
+  summarise(resultss_per_spec = n())
+```
+
+The most important difference between ordinary data frames and remote database queries is that your R code is translated into SQL and executed in the database on the remote server, not in R on your local machine. When working with databases, dplyr tries to be as lazy as possible:
+
+It never pulls data into R unless you explicitly ask for it.
+
+It delays doing any work until the last possible moment: it collects together everything you want to do and then sends it to the database in one step.
+
+For example, take the following code:
+
+```{r}
+labevents |>
+  group_by(specimen_id) |> 
+summarise(
+    n = n(),
+    abnormals = sum(is.na(flag))/as.numeric(n())
+    ) |>
+  arrange(desc(abnormals)) %>%
+  filter(n > 30)
+```
+
+
+```{r}
+top_lab <- labs |> 
+  count(itemid, sort = TRUE) |>
+  slice_max(n) |> 
+  pull(itemid) # Too esoteric?
+```
+
+```{r}
+lab_items |>
+  filter(itemid == top_lab)
+```
+
+
+

@@ -1,0 +1,21 @@
+---
+title: "connect to dbs"
+format: html
+editor: visual
+---
+
+```{r}
+library(connections)
+library(RSQLite)
+library(DBI)
+library(tidyverse)
+library(dbplyr)
+
+con <- connection_open(RSQLite::SQLite(), "mimic4.db")
+```
+
+we can use tbl() to take a reference to tables in teh database
+
+```{r}
+labevents <- tbl(con, "labevents")
+```

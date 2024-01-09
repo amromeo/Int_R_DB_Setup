@@ -13,19 +13,18 @@ library(dbplyr)
 
 con <- connection_open(RSQLite::SQLite(), "mimic4.db")
 ```
-we can use tbl() to take a reference to tables in teh database
 
+we can use tbl() to take a reference to tables in teh database
 
 ```{r}
 labevents <- tbl(con, "labevents")
 ```
 
-
 ## Generating queries
 
-To interact with a database you usually use SQL, the Structured Query Language. The goal of dbplyr is to automatically generate SQL for you so that you’re not forced to use it. 
+To interact with a database you usually use SQL, the Structured Query Language. The goal of dbplyr is to automatically generate SQL for you so that you're not forced to use it.
 
-Most of the time you don’t need to know anything about SQL, and you can continue to use the dplyr verbs that you’re already familiar with:
+Most of the time you don't need to know anything about SQL, and you can continue to use the dplyr verbs that you're already familiar with:
 
 ```{r}
 # Without Joins
@@ -90,10 +89,6 @@ spec_tests
 
 `collect()` requires that database does some work, so it may take a long time to complete. Otherwise, dplyr tries to prevent you from accidentally performing expensive query operations:
 
-* Because there's generally no way to determine how many rows a query will 
-  return unless you actually run it, `nrow()` is always `NA`.
+-   Because there's generally no way to determine how many rows a query will return unless you actually run it, `nrow()` is always `NA`.
 
-* Because you can't find the last few rows without executing the whole 
-  query, you can't use `tail()`.
-
-
+-   Because you can't find the last few rows without executing the whole query, you can't use `tail()`.

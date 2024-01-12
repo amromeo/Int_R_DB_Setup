@@ -17,5 +17,50 @@ con <- connection_open(RSQLite::SQLite(), "mimic4.db")
 we can use tbl() to take a reference to tables in teh database
 
 ```{r}
-labevents <- tbl(con, "labevents")
+lab_events <- tbl(con, "labevents")
 ```
+
+```{r}
+lab_items <- tbl(con, "D_LABITEMS")
+```
+
+Question: What is the most commonly ordered lab?
+
+```{r}
+top_lab <- lab_events |> 
+  count(itemid) |>
+  inner_join(lab_items,by = join_by(itemid)) |>
+  arrange(desc(n))
+```
+
+
+
+```{r}
+patients <- tbl(con,"patients")
+
+patients |>
+  mutate(death = case_when(
+    is.na(dod) ~ FALSE,
+    !is.na(dod) ~ TRUE
+  )) |>
+  inner_join(lab_events, by=join_by(subject_id)) |>
+  group_by(death) |>
+  summarise(pats = n_distinct(subject_id),
+            tests = n()) |>
+  mutate(tests_per_pat = tests/pats)
+
+```
+
+```{r}
+dbGetQuery(con,"SELECT charttime, typeof(charttime)
+FROM labevents
+LIMIT 10;")
+
+
+lab_events |>
+  mutate(test = str_extract(charttime, "^."))
+
+```
+
+
+

@@ -277,15 +277,13 @@ joinedData_ex4 |>
 -   When multiple matches exist (like multiple seniors for one junior or multiple juniors for seniors), left joins can result in duplicated rows.
 -   In cases where the left table (juniors) has more entries than the right (seniors), left joins show 'NA' for unmatchable entries.
 
-
 ### Inner Joins
 
 There are numerous types of joins that are supported by tidyverse but we'll only cover one other type, the inner join!
- 
+
 Imagine the following scenario. You are tasked with doing a quality project involving the evaluation of BRAF mutation status in samples from patients with melanoma. Since mutation positive patients are candidates for targeted therapies like BRAF inhibitors (e.g., vemurafenib, dabrafenib) it is important that these patients be screened for BRAF. Your project aims to determine the number of patients who have melanoma who are BRAF mutation positive and negative.
 
-You are given two lists. One of surgical pathology cases over the past year that were found to have melanoma and one of molecular pathology BRAF tests performed in the past year. Your task is to match these up to determine 
-
+You are given two lists. One of surgical pathology cases over the past year that were found to have melanoma and one of molecular pathology BRAF tests performed in the past year. Your task is to match these up to determine
 
 ```{r}
 
@@ -341,12 +339,9 @@ matched_patients
 
 This code will merge the two lists based on the patient_id column. Only patients who appear in both lists will be included in matched_patients.
 
-Now let's inspect the results. We expected to get a new list with:
-- One row per patient listing their melanoma diagnosis and their BRAF mutation status. 
-- Only patients that had both melanoma and BRAF mutation testing
-- No patients who do not have both melanoma and BRAF mutation testing
+Now let's inspect the results. We expected to get a new list with: - One row per patient listing their melanoma diagnosis and their BRAF mutation status. - Only patients that had both melanoma and BRAF mutation testing - No patients who do not have both melanoma and BRAF mutation testing
 
-Is that what we got? 
+Is that what we got?
 
 To evaluate whether the results from the inner join meet the expectations, we'll perform a series of checks on the matched_patients data. This will help verify that the final dataset indeed contains only those patients who have undergone both melanoma diagnosis and BRAF mutation testing, with each row representing a unique patient along with their respective test results.
 
@@ -355,10 +350,10 @@ To evaluate whether the results from the inner join meet the expectations, we'll
 R code to follow. You get the point.
 
 #### To Summarize
-- Inner joins are best used when you need to match records across two datasets.
-- They help in isolating the subset of data that is common to both tables.
-- Unlike left joins, they do not include unmatched records.
 
+-   Inner joins are best used when you need to match records across two datasets.
+-   They help in isolating the subset of data that is common to both tables.
+-   Unlike left joins, they do not include unmatched records.
 
 ```{sql connection=con}
 -- Assuming conn is your database connection

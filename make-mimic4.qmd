@@ -8,6 +8,7 @@ editor: visual
 # Load required packages
 library(RSQLite)
 library(connections)
+library(tidyverse)
 ```
 
 ```{bash}
@@ -59,7 +60,6 @@ print("Should be all done!")
 EOT
 ```
 
-
 ```{bash}
 python /cloud/project/physionet.org/files/mimic-iv-demo/2.2/import.py
 ```
@@ -73,8 +73,30 @@ DROP TABLE IF EXISTS chartevents;
 ```
 
 ```{sql connection=con4}
-VACUUM;
+DROP TABLE IF EXISTS TEMP_DIAGNOSES_ICD;
 ```
 
 
+```{sql connection=con4}
+-- Step 1: Create a new temporary table with the join
+CREATE TABLE TEMP_DIAGNOSES_ICD AS
+SELECT di.*, dd.long_title
+FROM DIAGNOSES_ICD di
+JOIN D_ICD_DIAGNOSES dd ON di.icd_code = dd.icd_code and di.icd_version = dd.icd_version;
+```
 
+```{sql connection=con4}
+-- Step 2: Drop the original table (make sure you have a backup before doing this!)
+DROP TABLE DIAGNOSES_ICD;
+```
+
+
+```{sql connection=con4}
+-- Step 3: Rename the temporary table to the original table name
+ALTER TABLE TEMP_DIAGNOSES_ICD RENAME TO diagnoses_icd;
+
+```
+
+```{sql connection=con4}
+VACUUM;
+```

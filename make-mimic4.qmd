@@ -94,8 +94,21 @@ DROP TABLE DIAGNOSES_ICD;
 ```{sql connection=con4}
 -- Step 3: Rename the temporary table to the original table name
 ALTER TABLE TEMP_DIAGNOSES_ICD RENAME TO diagnoses_icd;
-
 ```
+get rid of fibrin degradation products
+
+```{sql connection=con4}
+DELETE FROM D_LABITEMS
+WHERE itemid = 51213;
+```
+
+remove Phenobarbital
+```{sql connection=con4}
+DELETE FROM D_LABITEMS
+WHERE itemid = 50966;
+```
+
+
 
 ```{sql connection=con4}
 VACUUM;

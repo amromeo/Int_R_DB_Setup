@@ -30,10 +30,8 @@ Question: What is the most commonly ordered lab?
 top_lab <- lab_events |> 
   count(itemid) |>
   inner_join(lab_items,by = join_by(itemid)) |>
-  arrange(desc(n))
+  arrange(n)
 ```
-
-
 
 ```{r}
 patients <- tbl(con,"patients")
@@ -61,6 +59,3 @@ lab_events |>
   mutate(test = str_extract(charttime, "^."))
 
 ```
-
-
-
